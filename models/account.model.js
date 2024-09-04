@@ -25,8 +25,17 @@ const ACCOUNT = {
                 startdate
             } = data;
 
+            const query_find_idCustomer = "SELECT * FROM customer WHERE id = $1";
+            const result_find_IdCustomer = await db.query(query_find_idCustomer, [id_customer]);
+            const idCustomer = result_find_IdCustomer.rows.length > 0 ? result_find_IdCustomer.rows[0] : null;
+
+            const query_find_packet = "SELECT * FROM deposito_type WHERE id = $1";
+            const result_find_IdPacket = await db.query(query_find_packet, [packet]);
+            const idPacket = result_find_IdPacket.rows.length > 0 ? result_find_IdPacket.rows[0] : null;
+
+
             // validating data
-            if (!id_customer || !packet || balance == null || isNaN(balance) || balance < 0) {
+            if (!idCustomer || !idPacket || balance == null || isNaN(balance) || balance < 0) {
                 throw new Error('Invalid input data');
             } else {
                 const query =
